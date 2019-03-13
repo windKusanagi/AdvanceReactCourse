@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux'
-import { saveComment } from "../store/actions";
+import { connect } from "react-redux";
+import { saveComment, fetchComments } from "../store/actions";
 
 class CommentBox extends Component {
 	state = {
 		comment: ""
 	};
+
 	handleInput = event => {
 		this.setState({
 			comment: event.target.value
@@ -18,7 +19,11 @@ class CommentBox extends Component {
 		this.setState({
 			comment: ""
 		});
-		
+	};
+
+	handleFetch = event => {
+		event.preventDefault();
+		this.props.fetchComments();
 	};
 
 	render() {
@@ -34,7 +39,8 @@ class CommentBox extends Component {
 					onChange={this.handleInput}
 				/>
 				<div>
-					<button >Submit Comment</button>
+					<button type="submit">Submit Comment</button>
+					<button className="fetch-comments-btn" onClick={this.handleFetch}>Fetch Comment</button>
 				</div>
 			</form>
 		);
@@ -44,12 +50,16 @@ class CommentBox extends Component {
 const mapStateToProps = state => {
 	return {
 		comments: state.comments
-	}
-}
-const mapDispatchToProps = dispatch =>{
+	};
+};
+const mapDispatchToProps = dispatch => {
 	return {
-		saveComment: comment => dispatch(saveComment(comment))
-	}
-}
+		saveComment: comment => dispatch(saveComment(comment)),
+		fetchComments: () => dispatch(fetchComments())
+	};
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(CommentBox);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(CommentBox);
