@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { saveComment, fetchComments } from "../store/actions";
+import routerGuards from "./routerGuards";
 
 class CommentBox extends Component {
 	state = {
@@ -40,7 +41,12 @@ class CommentBox extends Component {
 				/>
 				<div>
 					<button type="submit">Submit Comment</button>
-					<button className="fetch-comments-btn" onClick={this.handleFetch}>Fetch Comment</button>
+					<button
+						className="fetch-comments-btn"
+						onClick={this.handleFetch}
+					>
+						Fetch Comment
+					</button>
 				</div>
 			</form>
 		);
@@ -62,4 +68,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(CommentBox);
+)(routerGuards(CommentBox));
